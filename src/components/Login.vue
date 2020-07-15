@@ -8,12 +8,12 @@
       <!-- 登录表单区域 -->
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login-form">
         <!-- 用户名 -->
-        <el-form-item prop="userName">
-          <el-input v-model="loginForm.userName" prefix-icon="iconfont iconuser"></el-input>
+        <el-form-item prop="username">
+          <el-input v-model="loginForm.username" prefix-icon="iconfont iconuser"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item prop="passWord">
-          <el-input v-model="loginForm.passWord" type="password" prefix-icon="iconfont iconsuo1"></el-input>
+        <el-form-item prop="password">
+          <el-input v-model="loginForm.password" type="password" prefix-icon="iconfont iconsuo1"></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
@@ -32,16 +32,16 @@ export default {
     return {
       // 登录表单的数据绑定对象
       loginForm: {
-        userName: '',
-        passWord: ''
+        username: '',
+        password: ''
       },
       // 表单验证
       loginFormRules: {
-        userName: [
+        username: [
           { required: true, message: '请输入账号名称', trigger: 'blur' },
           { min: 3, max: 10, message: '账号长度在 3 到 10 个字符', trigger: 'blur' }
         ],
-        passWord: [
+        password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 18, message: '账号长度在 6 到 18 个字符', trigger: 'blur' }
         ]
@@ -52,8 +52,14 @@ export default {
     registerLogin() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const result = await this.$http.post('login', this.loginForm);
-        console.log(result);
+        const { data: res } = await this.$http.post('login', this.loginForm);
+        if (res.meta.status !== 200) return this.$message.error('登陆失败！');
+        this.$message.success('登录成功！');
+
+        // 登录成功后的token 保存到seesionStorage
+        window.sessionStorage.setItem('token', res.data.token);
+        // 登录成功之后，自动跳转home页面
+        this.$router.push('/home');
       })
     },
     resetLoginForm() {
