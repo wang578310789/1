@@ -59,7 +59,9 @@ export default {
         // 登录成功后的token 保存到seesionStorage
         window.sessionStorage.setItem('token', res.data.token);
         // 登录成功之后，自动跳转home页面
-        this.$router.push('/home');
+        this.$router.push('/home').catch(err => {
+          console.log(err);
+        });
       })
     },
     resetLoginForm() {
