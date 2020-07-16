@@ -3,13 +3,23 @@ import VueRouter from 'vue-router'
 
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
+import Welcome from '../components/Welcome.vue'
+import Users from '../components/user/Users.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
     { path: '/', redirect: '/login' },// 一进入就显示登录
-    { path: '/Login', component: Login },// 登录
-    { path: '/Home', component: Home }// home
+    { path: '/login', component: Login },// 登录
+    { 
+      path: '/home',
+      component: Home,
+      redirect: '/welcome',
+      children: [
+        { path: '/welcome', component: Welcome },
+        { path: '/users', component: Users }
+      ]
+    }
   ]
 
 const router = new VueRouter({
@@ -26,5 +36,11 @@ router.beforeEach((to, from, next) => {
   if(!tokenStr) return next('/login')
   next()
 })
+
+// 解决Avoided redundant navigation to current location: '/XXX'问题
+const originalPush = VueRouter.prototype.push
+   VueRouter.prototype.push = function push(location) {
+   return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

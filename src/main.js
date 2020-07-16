@@ -14,8 +14,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.config.productionTip = false
 Vue.prototype.$qs = Qs
 // 配置接口路径
-Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://timemeetyou.com:8889/api/private/v1/'
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  // 最后面必须用return config
+  return config
+})
+Vue.prototype.$http = axios
 
 Vue.use(ElementUI);
 
