@@ -3,6 +3,7 @@ import App from './App.vue'
 import ElementUI from 'element-ui';
 import axios from 'axios'
 import Qs from 'qs'
+import TreeTable from 'vue-table-with-tree-grid'
 
 import router from './router'
 import store from './store'
@@ -23,6 +24,8 @@ axios.interceptors.request.use(config => {
 Vue.prototype.$http = axios
 
 Vue.use(ElementUI);
+
+Vue.component('tree-table', TreeTable)
 
 new Vue({
   router,

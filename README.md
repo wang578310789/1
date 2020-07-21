@@ -19,6 +19,8 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 插件
+#### 树形表格
+```
+npm i vue-table-with-tree-grid -s
+```
