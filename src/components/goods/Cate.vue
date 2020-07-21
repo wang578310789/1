@@ -222,7 +222,7 @@ export default {
       this.$refs.addCateFormRef.validate(async valid => {
         if(!valid) return
         const { data: res } = await this.$http.post('categories', this.addCateForm)
-        if (res.meta.status == 200) {
+        if (res.meta.status == 201) {
           this.$message.success('添加分类成功!')
           this.getCateList()
           this.addCateDialogVisible = false
