@@ -5,6 +5,7 @@ import axios from 'axios'
 import Qs from 'qs'
 import TreeTable from 'vue-table-with-tree-grid'
 import VueQuillEditor from 'vue-quill-editor'
+import NProgress from 'nprogress'
 
 import router from './router'
 import store from './store'
@@ -15,16 +16,25 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import 'nprogress/nprogress.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$qs = Qs
 // 配置接口路径
 axios.defaults.baseURL = 'http://timemeetyou.com:8889/api/private/v1/'
+// 在 request 拦截器中，展示进度条 NProgress.start()
 axios.interceptors.request.use(config => {
+  NProgress.start()
   config.headers.Authorization = window.sessionStorage.getItem('token')
   // 最后面必须用return config
   return config
 })
+// 在 response 拦截器中，展示进度条 NProgress.done()
+axios.interceptors.response.use(config => {
+  NProgress.done()
+  return config
+})
+
 Vue.prototype.$http = axios
 
 Vue.use(ElementUI);
