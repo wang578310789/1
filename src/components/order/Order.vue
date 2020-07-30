@@ -123,7 +123,6 @@ export default {
       })
 
       if (res.meta.status == 200) {
-        console.log(res)
         this.total = res.data.total
         this.orderList = res.data.goods
 
@@ -151,7 +150,6 @@ export default {
       if (res.meta.status == 200) {
         this.progressInfo = res.data
         this.progressVisible = true
-        console.log(this.progressInfo)
       } else {
         this.$message.error('获取物流进度失败！')
       }
